@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tourism Trip Calculator</title>
-    <!-- jai kumar  -->
-     <!-- harji ram -->
     <style>
         * {
             margin: 0;
@@ -189,7 +187,6 @@
     </style>
 </head>
 <body>
-    <!-- Rest of the HTML remains the same -->
     <div class="container">
         <h1 class="title">Tourism Trip Calculator</h1>
         <form class="trip-form" id="tripForm">
@@ -199,32 +196,55 @@
                     <label>Select Destination</label>
                     <select id="destination" required>
                         <option value="">Select a destination</option>
-                        <option value="kartarpur">Kartarpur (470km, Rs1200 toll)</option>
-                        <option value="nankana">Nankana Sahib (150km, Rs880 toll)</option>
-                        <option value="punja">Punja Sahib (800km, Rs6060 toll)</option>
-                        <option value="sacha">Sacha Soda (180km, Rs1000 toll)</option>
-                        <option value="airport">Lahore Airport (100km, No toll)</option>
+                        <option value="kartarpur">Kartarpur (Rs1200 toll)</option>
+                        <option value="nankana">Nankana Sahib (Rs880 toll)</option>
+                        <option value="punja">Punja Sahib (Rs6060 toll)</option>
+                        <option value="sacha">Sacha Soda (Rs1000 toll)</option>
+                        <option value="airport">Lahore Airport (No toll)</option>
+                        <option value="manali">Manali (Rs2000 toll)</option>
+                        <option value="shimla">Shimla (Rs1500 toll)</option>
+                        <option value="dharamshala">Dharamshala (Rs1200 toll)</option>
                     </select>
-                </div>
-
+                </div>   
                 <div class="input-box">
-                    <label>Number of Days</label>
-                    <input type="number" id="numDays" min="1" value="1" required>
+                    <label>Onwards Journey (KM)</label>
+                    <input type="number" id="onwardDistance" min="1" placeholder="Enter onward journey distance" required>
                 </div>
-
                 <div class="input-box">
                     <label>Number of Nights</label>
                     <input type="number" id="numNights" min="0" value="0" required>
                 </div>
 
-                <div class="section-title">Vehicle Details</div>
+                <div class="section-title">Vehicle & Distance Details</div>
                 <div class="input-box">
                     <label>Select Vehicle Type</label>
                     <select id="vehicleType" required>
                         <option value="">Select vehicle type</option>
-                        <option value="revo">Revo (14KM/L)</option>
+                        <option value="revo">Toyota Revo (14KM/L)</option>
                         <option value="jeep">Jeep (9KM/L)</option>
                         <option value="coaster">Coaster (7KM/L)</option>
+                        <option value="cultus">Suzuki Cultus (16KM/L)</option>
+                        <option value="civic">Honda Civic (12KM/L)</option>
+                        <option value="corolla">Toyota Corolla (13KM/L)</option>
+                        <option value="hiace">Toyota Hiace (10KM/L)</option>
+                        <option value="bus">Bus (5KM/L)</option>
+                    </select>
+                </div>
+    
+                <div class="input-box">
+                    <label>Select Common Distance</label>
+                    <select id="commonDistance">
+                        <option value="">Custom distance</option>
+                        <option value="100">100 KM</option>
+                        <option value="200">200 KM</option>
+                        <option value="300">300 KM</option>
+                        <option value="400">400 KM</option>
+                        <option value="500">500 KM</option>
+                        <option value="600">600 KM</option>
+                        <option value="700">700 KM</option>
+                        <option value="800">800 KM</option>
+                        <option value="900">900 KM</option>
+                        <option value="1000">1000 KM</option>
                     </select>
                 </div>
 
@@ -233,12 +253,18 @@
                     <input type="number" id="fuelPrice" placeholder="Enter fuel price" required>
                 </div>
 
-                <div class="section-title">Accommodation & Meals</div>
+                <div class="section-title">Accommodation</div>
                 <div class="input-box">
-                    <label>Hotel Cost (per night)</label>
-                    <input type="number" id="hotelCostPerNight" placeholder="Cost per night" required>
+                    <label>Select Hotel</label>
+                    <select id="hotelType" required>
+                        <option value="">Select hotel</option>
+                        <option value="jk">JK Hotel (Rs5000 per night)</option>
+                        <option value="harje">Harje Hotel (Rs3500 per night)</option>
+                    </select>
                 </div>
 
+                <!-- Rest of the form remains the same -->
+                <div class="section-title">Meals</div>
                 <div class="input-box">
                     <label>Lunch Cost (per person)</label>
                     <input type="number" id="lunchCost" placeholder="Cost per lunch" required>
@@ -265,13 +291,16 @@
         <div class="result" id="result">
             <h3>Trip Cost Breakdown</h3>
             <p id="destResult">Destination: </p>
-            <p id="durationResult">Duration: </p>
-            <p id="distanceResult">Distance: </p>
+            <p id="distanceResult">Total Distance: </p>
+            <p id="onwardDistanceResult">Onward Journey: </p>
+            <p id="returnDistanceResult">Return Journey: </p>
+            <p id="nightsResult">Number of Nights: </p>
             <p id="vehicleResult">Vehicle Type: </p>
             <p id="fuelEfficiencyResult">Fuel Efficiency: </p>
             <p id="fuelCostResult">Total Fuel Cost: </p>
             <p id="tollResult">Toll Charges: </p>
             <p id="rentResult">Vehicle Rent: </p>
+            <p id="hotelResult">Hotel: </p>
             <p class="subtotal" id="accommodationResult">Total Accommodation Cost: </p>
             <p id="lunchResult">Total Lunch Cost: </p>
             <p id="dinnerResult">Total Dinner Cost: </p>
@@ -283,42 +312,165 @@
 
     <script>
         const destinations = {
-            kartarpur: { distance: 470, toll: 1200, cost: 150000 },
-            nankana: { distance: 150, toll: 880, cost: 9140 },
-            punja: { distance: 800, toll: 6060, cost: 625000 },
-            sacha: { distance: 180, toll: 1000, cost: 140000 },
-            airport: { distance: 100, toll: 0, cost: 175000 }
+            kartarpur: { toll: 1200, cost: 150000 },
+            nankana: { toll: 880, cost: 9140 },
+            punja: { toll: 6060, cost: 625000 },
+            sacha: { toll: 1000, cost: 140000 },
+            airport: { toll: 0, cost: 175000 },
+            manali: { toll: 2000, cost: 200000 },
+            shimla: { toll: 1500, cost: 180000 },
+            dharamshala: { toll: 1200, cost: 160000 }
         };
 
         const vehicles = {
             revo: { efficiency: 14, rent: 250000 },
             jeep: { efficiency: 9, rent: 100000 },
-            coaster: { efficiency: 7, rent: 175000 }
+            coaster: { efficiency: 7, rent: 175000 },
+            cultus: { efficiency: 16, rent: 80000 },
+            civic: { efficiency: 12, rent: 150000 },
+            corolla: { efficiency: 13, rent: 130000 },
+            hiace: { efficiency: 10, rent: 200000 },
+            bus: { efficiency: 5, rent: 300000 }
         };
 
+        const hotels = {
+            jk: { cost: 5000 },
+            harje: { cost: 3500 }
+        };
+
+        const vehicles = {
+            revo: { 
+                efficiency: 14, 
+                rent: 250000,
+                commonDistances: {
+                    "100": { onward: 100, return: 100 },
+                    "200": { onward: 200, return: 200 },
+                    "300": { onward: 300, return: 300 },
+                    "400": { onward: 400, return: 400 },
+                    "500": { onward: 500, return: 500 }
+                }
+            },
+            jeep: { 
+                efficiency: 9, 
+                rent: 100000,
+                commonDistances: {
+                    "100": { onward: 100, return: 100 },
+                    "200": { onward: 200, return: 200 },
+                    "300": { onward: 300, return: 300 },
+                    "400": { onward: 400, return: 400 }
+                }
+            },
+            coaster: { 
+                efficiency: 7, 
+                rent: 175000,
+                commonDistances: {
+                    "200": { onward: 200, return: 200 },
+                    "400": { onward: 400, return: 400 },
+                    "600": { onward: 600, return: 600 }
+                }
+            },
+            cultus: { 
+                efficiency: 16, 
+                rent: 80000,
+                commonDistances: {
+                    "100": { onward: 100, return: 100 },
+                    "200": { onward: 200, return: 200 },
+                    "300": { onward: 300, return: 300 }
+                }
+            },
+            civic: { 
+                efficiency: 12, 
+                rent: 150000,
+                commonDistances: {
+                    "200": { onward: 200, return: 200 },
+                    "400": { onward: 400, return: 400 },
+                    "600": { onward: 600, return: 600 }
+                }
+            },
+            corolla: { 
+                efficiency: 13, 
+                rent: 130000,
+                commonDistances: {
+                    "200": { onward: 200, return: 200 },
+                    "400": { onward: 400, return: 400 },
+                    "500": { onward: 500, return: 500 }
+                }
+            },
+            hiace: { 
+                efficiency: 10, 
+                rent: 200000,
+                commonDistances: {
+                    "300": { onward: 300, return: 300 },
+                    "600": { onward: 600, return: 600 },
+                    "900": { onward: 900, return: 900 }
+                }
+            },
+            bus: { 
+                efficiency: 5, 
+                rent: 300000,
+                commonDistances: {
+                    "500": { onward: 500, return: 500 },
+                    "750": { onward: 750, return: 750 },
+                    "1000": { onward: 1000, return: 1000 }
+                }
+            }
+        };
+        
+        // Add event listeners for vehicle and distance selectors
+        document.getElementById('vehicleType').addEventListener('change', function() {
+            const vehicleType = this.value;
+            const commonDistanceSelect = document.getElementById('commonDistance');
+            
+            // Clear existing options except the first one
+            while (commonDistanceSelect.options.length > 1) {
+                commonDistanceSelect.remove(1);
+            }
+
+            if (vehicleType && vehicles[vehicleType].commonDistances) {
+                // Add vehicle-specific distance options
+                Object.keys(vehicles[vehicleType].commonDistances).forEach(distance => {
+                    const option = new Option(`${distance} KM`, distance);
+                    commonDistanceSelect.add(option);
+                });
+            }
+        });
+
+        document.getElementById('commonDistance').addEventListener('change', function() {
+            const selectedDistance = this.value;
+            const vehicleType = document.getElementById('vehicleType').value;
+            
+            if (selectedDistance && vehicles[vehicleType].commonDistances[selectedDistance]) {
+                const distances = vehicles[vehicleType].commonDistances[selectedDistance];
+                document.getElementById('onwardDistance').value = distances.onward;
+                document.getElementById('returnDistance').value = distances.return;
+            }
+        });
         document.getElementById('tripForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             // Get form values
             const selectedDest = document.getElementById('destination').value;
+            const onwardDistance = parseFloat(document.getElementById('onwardDistance').value);
+            const returnDistance = parseFloat(document.getElementById('returnDistance').value);
+            const totalDistance = onwardDistance + returnDistance;
             const selectedVehicle = document.getElementById('vehicleType').value;
-            const numDays = parseInt(document.getElementById('numDays').value);
+            const selectedHotel = document.getElementById('hotelType').value;
             const numNights = parseInt(document.getElementById('numNights').value);
             const numPeople = parseInt(document.getElementById('numPeople').value);
             const fuelPrice = parseFloat(document.getElementById('fuelPrice').value);
-            const hotelCostPerNight = parseFloat(document.getElementById('hotelCostPerNight').value);
             const lunchCost = parseFloat(document.getElementById('lunchCost').value);
             const dinnerCost = parseFloat(document.getElementById('dinnerCost').value);
             const protocol = parseFloat(document.getElementById('protocol').value) || 0;
 
             const destData = destinations[selectedDest];
             const vehicleData = vehicles[selectedVehicle];
+            const hotelData = hotels[selectedHotel];
 
             // Calculate costs
-            const fuelNeeded = (destData.distance / vehicleData.efficiency);
+            const fuelNeeded = (totalDistance / vehicleData.efficiency);
             const fuelCost = fuelNeeded * fuelPrice;
-            const totalHotelCost = hotelCostPerNight * numNights;
-            const totalLunchCost = lunchCost * numPeople * numDays;
+            const totalHotelCost = hotelData.cost * numNights;
+            const totalLunchCost = lunchCost * numPeople * numNights;
             const totalDinnerCost = dinnerCost * numPeople * numNights;
 
             // Calculate total cost
@@ -327,15 +479,18 @@
 
             // Display results
             document.getElementById('destResult').textContent = `Destination: ${selectedDest.charAt(0).toUpperCase() + selectedDest.slice(1)}`;
-            document.getElementById('durationResult').textContent = `Duration: ${numDays} days, ${numNights} nights`;
-            document.getElementById('distanceResult').textContent = `Distance: ${destData.distance} km`;
+            document.getElementById('distanceResult').textContent = `Total Distance: ${totalDistance} km`;
+            document.getElementById('onwardDistanceResult').textContent = `Onward Journey: ${onwardDistance} km`;
+            document.getElementById('returnDistanceResult').textContent = `Return Journey: ${returnDistance} km`;
+            document.getElementById('nightsResult').textContent = `Number of Nights: ${numNights}`;
             document.getElementById('vehicleResult').textContent = `Vehicle Type: ${selectedVehicle.charAt(0).toUpperCase() + selectedVehicle.slice(1)}`;
             document.getElementById('fuelEfficiencyResult').textContent = `Fuel Efficiency: ${vehicleData.efficiency} KM/L`;
             document.getElementById('fuelCostResult').textContent = `Total Fuel Cost: Rs${fuelCost.toFixed(2)}`;
             document.getElementById('tollResult').textContent = `Toll Charges: Rs${destData.toll}`;
             document.getElementById('rentResult').textContent = `Vehicle Rent: Rs${vehicleData.rent}`;
+            document.getElementById('hotelResult').textContent = `Hotel: ${selectedHotel.toUpperCase()} Hotel`;
             document.getElementById('accommodationResult').textContent = `Total Accommodation Cost: Rs${totalHotelCost} (${numNights} nights)`;
-            document.getElementById('lunchResult').textContent = `Total Lunch Cost: Rs${totalLunchCost} (${numPeople} people × ${numDays} days)`;
+            document.getElementById('lunchResult').textContent = `Total Lunch Cost: Rs${totalLunchCost} (${numPeople} people × ${numNights} days)`;
             document.getElementById('dinnerResult').textContent = `Total Dinner Cost: Rs${totalDinnerCost} (${numPeople} people × ${numNights} nights)`;
             document.getElementById('protocolResult').textContent = `Protocol: Rs${protocol}`;
             document.getElementById('totalResult').textContent = `Total Trip Cost: Rs${totalCost.toFixed(2)}`;
@@ -349,6 +504,7 @@
             document.getElementById('downloadButton').style.display = 'block';
         });
 
+        // Download functionality remains the same
         document.getElementById('downloadButton').addEventListener('click', function() {
             const resultDiv = document.getElementById('result');
             const resultText = Array.from(resultDiv.getElementsByTagName('p'))
