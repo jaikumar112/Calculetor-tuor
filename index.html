@@ -205,11 +205,19 @@
                         <option value="shimla">Shimla (Rs1500 toll)</option>
                         <option value="dharamshala">Dharamshala (Rs1200 toll)</option>
                     </select>
-                </div>   
+                </div>
+
                 <div class="input-box">
                     <label>Onwards Journey (KM)</label>
                     <input type="number" id="onwardDistance" min="1" placeholder="Enter onward journey distance" required>
                 </div>
+    
+                <div class="input-box">
+                    <label>Return Journey (KM)</label>
+                    <input type="number" id="returnDistance" min="1" placeholder="Enter return journey distance" required>
+                </div>
+
+
                 <div class="input-box">
                     <label>Number of Nights</label>
                     <input type="number" id="numNights" min="0" value="0" required>
@@ -247,7 +255,7 @@
                         <option value="1000">1000 KM</option>
                     </select>
                 </div>
-
+                
                 <div class="input-box">
                     <label>Fuel Price (per liter)</label>
                     <input type="number" id="fuelPrice" placeholder="Enter fuel price" required>
@@ -338,113 +346,6 @@
             harje: { cost: 3500 }
         };
 
-        const vehicles = {
-            revo: { 
-                efficiency: 14, 
-                rent: 250000,
-                commonDistances: {
-                    "100": { onward: 100, return: 100 },
-                    "200": { onward: 200, return: 200 },
-                    "300": { onward: 300, return: 300 },
-                    "400": { onward: 400, return: 400 },
-                    "500": { onward: 500, return: 500 }
-                }
-            },
-            jeep: { 
-                efficiency: 9, 
-                rent: 100000,
-                commonDistances: {
-                    "100": { onward: 100, return: 100 },
-                    "200": { onward: 200, return: 200 },
-                    "300": { onward: 300, return: 300 },
-                    "400": { onward: 400, return: 400 }
-                }
-            },
-            coaster: { 
-                efficiency: 7, 
-                rent: 175000,
-                commonDistances: {
-                    "200": { onward: 200, return: 200 },
-                    "400": { onward: 400, return: 400 },
-                    "600": { onward: 600, return: 600 }
-                }
-            },
-            cultus: { 
-                efficiency: 16, 
-                rent: 80000,
-                commonDistances: {
-                    "100": { onward: 100, return: 100 },
-                    "200": { onward: 200, return: 200 },
-                    "300": { onward: 300, return: 300 }
-                }
-            },
-            civic: { 
-                efficiency: 12, 
-                rent: 150000,
-                commonDistances: {
-                    "200": { onward: 200, return: 200 },
-                    "400": { onward: 400, return: 400 },
-                    "600": { onward: 600, return: 600 }
-                }
-            },
-            corolla: { 
-                efficiency: 13, 
-                rent: 130000,
-                commonDistances: {
-                    "200": { onward: 200, return: 200 },
-                    "400": { onward: 400, return: 400 },
-                    "500": { onward: 500, return: 500 }
-                }
-            },
-            hiace: { 
-                efficiency: 10, 
-                rent: 200000,
-                commonDistances: {
-                    "300": { onward: 300, return: 300 },
-                    "600": { onward: 600, return: 600 },
-                    "900": { onward: 900, return: 900 }
-                }
-            },
-            bus: { 
-                efficiency: 5, 
-                rent: 300000,
-                commonDistances: {
-                    "500": { onward: 500, return: 500 },
-                    "750": { onward: 750, return: 750 },
-                    "1000": { onward: 1000, return: 1000 }
-                }
-            }
-        };
-        
-        // Add event listeners for vehicle and distance selectors
-        document.getElementById('vehicleType').addEventListener('change', function() {
-            const vehicleType = this.value;
-            const commonDistanceSelect = document.getElementById('commonDistance');
-            
-            // Clear existing options except the first one
-            while (commonDistanceSelect.options.length > 1) {
-                commonDistanceSelect.remove(1);
-            }
-
-            if (vehicleType && vehicles[vehicleType].commonDistances) {
-                // Add vehicle-specific distance options
-                Object.keys(vehicles[vehicleType].commonDistances).forEach(distance => {
-                    const option = new Option(`${distance} KM`, distance);
-                    commonDistanceSelect.add(option);
-                });
-            }
-        });
-
-        document.getElementById('commonDistance').addEventListener('change', function() {
-            const selectedDistance = this.value;
-            const vehicleType = document.getElementById('vehicleType').value;
-            
-            if (selectedDistance && vehicles[vehicleType].commonDistances[selectedDistance]) {
-                const distances = vehicles[vehicleType].commonDistances[selectedDistance];
-                document.getElementById('onwardDistance').value = distances.onward;
-                document.getElementById('returnDistance').value = distances.return;
-            }
-        });
         document.getElementById('tripForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
